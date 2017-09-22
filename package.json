@@ -1,0 +1,24 @@
+{
+  "name": "foodle-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tri Thuc",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.17.2",
+    "cors": "^2.8.4",
+    "express": "^4.15.4",
+    "jsonwebtoken": "^7.4.3",
+    "lodash": "^4.17.4",
+    "method-override": "^2.3.9",
+    "mongoose": "^4.11.9",
+    "node-restful": "^0.2.6",
+    "passport": "^0.4.0",
+    "passport-jwt": "^3.0.0"
+  }
+}

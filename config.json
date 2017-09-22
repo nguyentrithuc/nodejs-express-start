@@ -1,0 +1,4 @@
+{
+    "secret":"concamatdep",
+    "database":"mongodb://trithuc:concamatdep@ds036079.mlab.com:36079/foodle"
+}
