@@ -14,7 +14,6 @@
     "cors": "^2.8.4",
     "express": "^4.15.4",
     "jsonwebtoken": "^7.4.3",
-    "lodash": "^4.17.4",
     "method-override": "^2.3.9",
     "mongoose": "^4.11.9",
     "node-restful": "^0.2.6",

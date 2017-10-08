@@ -1,8 +1,7 @@
 var mongoose = require('mongoose');
-var passport = require('passport');
-var secret = require('../config').secret;
 var User = require('../models/User');
-require('./passport')(passport, User, secret);
+var secret = require('../config').secret;
+
 var express = require('express');
 var router = express.Router();
 var jwt = require('jsonwebtoken');
@@ -54,20 +53,5 @@ router.post('/login', function(req, res) {
     });
     
   });
-
- 
-
-  function getToken(headers) {
-      if (headers && headers.authorization) {
-          var parted = headers.authorization.split(' ');
-          if (parted.length === 2) {
-              return parted[1];
-          } else {
-              return null;
-          }
-      } else {
-          return null;
-      }
-  }
 
   module.exports = router;

@@ -1,9 +1,8 @@
 const express = require('express')
 var mongoose = require('mongoose')
-var passport = require('passport')
+var auth = require('./auth')()
 var bodyParser = require('body-parser')
 var methodOverride = require('method-override')
-var _ = require('lodash')
 var cors = require('cors')
 
 var config = require('./config');
@@ -15,7 +14,8 @@ app.set('port', 9000)
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
 app.use(methodOverride('X-HTTP-Method-Override'))
-app.use(passport.initialize())
+// Authenticate request
+app.use(auth.initialize())
 // CORS support
 app.use(cors())
 // User login
@@ -23,13 +23,17 @@ app.use('/user', require('./controllers/UserController'))
 // Connect to mongoDB
 mongoose.Promise = Promise
 mongoose.connect(config.database,{useMongoClient: true})
+
 mongoose.connection.once('open',function(){
-    app.models = require('./models/index')
-    var routes = require('./routes')
-    _.each(routes, function(controller, route){
-        app.use(route, controller(app, route))
-    })
+    // Application routes
+    var dishRoutes = require('./routes/dishRoutes');
+    var locationRoutes = require('./routes/locationRoutes');
+    var storeRoutes = require('./routes/storeRoutes');
+    dishRoutes(app);
+    locationRoutes(app);
+    storeRoutes(app);
+
     app.listen(app.get('port'), function(){
-        console.log("The app is listening on port " + app.get('port'))
-    })
-})
+        console.log("The app is listening on port" + app.get('port'));
+    });
+});

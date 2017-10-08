@@ -1,7 +1,8 @@
+'use strict';
 var mongoose = require('mongoose')
 
 var StoreSchema = new mongoose.Schema({
-    title:{
+    name:{
         type: String,
         required: true
     },
@@ -13,6 +14,10 @@ var StoreSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    dishID: {
+        type: Array,
+        required: false
+    },
     gallery:{
         type: String,
         required: false
@@ -23,4 +28,4 @@ var StoreSchema = new mongoose.Schema({
     }
 })
 
-module.exports = StoreSchema
+module.exports = mongoose.model('Store', StoreSchema)

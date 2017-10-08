@@ -1,3 +1,4 @@
+'use strict';
 var mongoose = require('mongoose')
 
 var DishSchema = new mongoose.Schema({
@@ -10,8 +11,12 @@ var DishSchema = new mongoose.Schema({
         required: true,
     },
     location: {
-        type: String,
         required: true,
+        type: String,
+    },
+    image: {
+        type: String,
+        required: false,
     },
     gallery: {
         type: Array,
@@ -19,14 +24,14 @@ var DishSchema = new mongoose.Schema({
     },
     content: {
         type: String,
-        required: true,
+        required: false,
     }
 })
 
-DishSchema.method.getGallery = function() {
-    return this.gallery.map(function(picture){
-        return "media hosting url" + picture
-    })
-}
+// DishSchema.method.getGallery = function() {
+//     return this.gallery.map(function(picture){
+//         return "media hosting url" + picture
+//     })
+// }
 
-module.exports = DishSchema
+module.exports = mongoose.model('Dish',DishSchema)
