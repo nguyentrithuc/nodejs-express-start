@@ -16,24 +16,38 @@ app.use(bodyParser.json())
 app.use(methodOverride('X-HTTP-Method-Override'))
 // Authenticate request
 app.use(auth.initialize())
-// CORS support
-app.use(cors())
-// User login
-app.use('/user', require('./controllers/UserController'))
+
+// CORS support, config cors to support specific domain
+
+var whiteList = ['http://localhost:3000','http://beta.foodlenow.com', 'http://foodlenow.com']
+var corsOptionsDelegate = function(req, callback) {
+    var corsOptions;
+    if (whiteList.indexOf(req.header('Origin')) !== -1 ) {
+        corsOptions = { origin: true }
+    } else {
+        corsOptions = { origin: false }
+    }
+    callback(null, corsOptions)
+}
+
+app.use(cors(corsOptionsDelegate))
+
 // Connect to mongoDB
 mongoose.Promise = Promise
 mongoose.connect(config.database,{useMongoClient: true})
 
 mongoose.connection.once('open',function(){
     // Application routes
+    var userRoutes = require('./routes/userRoutes');
     var dishRoutes = require('./routes/dishRoutes');
     var locationRoutes = require('./routes/locationRoutes');
     var storeRoutes = require('./routes/storeRoutes');
+    userRoutes(app);
     dishRoutes(app);
     locationRoutes(app);
     storeRoutes(app);
 
     app.listen(app.get('port'), function(){
-        console.log("The app is listening on port" + app.get('port'));
+        console.log("The app is listening on port " + app.get('port'));
     });
 });

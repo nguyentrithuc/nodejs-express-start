@@ -2,7 +2,6 @@
 
 var mongoose = require('mongoose');
 var Store = require('../models/Store');
-var getToken = require('../helper/getToken');
 
 exports.list_stores = function(req, res) {
     var dishID = req.query.dishID;
@@ -21,7 +20,6 @@ exports.list_stores = function(req, res) {
 
 exports.create_a_store = function(req, res) {
     // var token = getToken(req.headers);
-    console.log(req.headers);
     var new_store = new Store(req.body);
     new_store.save(function(err, store){
         if (err) throw err;

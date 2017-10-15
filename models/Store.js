@@ -6,20 +6,24 @@ var StoreSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    description:{
+    ownerUser: {
         type: String,
-        required: false
+        required: true
     },
     address: {
         type: String,
-        required: true
+        required: false
+    },
+    description:{
+        type: String,
+        required: false
     },
     dishID: {
         type: Array,
         required: false
     },
     gallery:{
-        type: String,
+        type: Array,
         required: false
     },
     logo: {

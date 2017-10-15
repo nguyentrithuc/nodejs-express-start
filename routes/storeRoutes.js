@@ -5,12 +5,13 @@ module.exports = function(app) {
     var Store = require('../controllers/StoreController');
 
     app.route('/store')
-        .get(auth.authenticate(), Store.list_stores)
-        .post(Store.create_a_store);
+        .get( Store.list_stores)
+        .post(auth.authenticate(),Store.create_a_store);
 
     app.route('/store/:storeID')
-        .put(Store.update_a_store)
-        .delete(Store.delete_a_store);
+        .get(Store.read_a_store)
+        .put(auth.authenticate() ,Store.update_a_store)
+        .delete(auth.authenticate() ,Store.delete_a_store);
 }
 
 
