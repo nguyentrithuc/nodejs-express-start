@@ -11,7 +11,15 @@ var UserSchema = new Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    userType: {
+        type: String,
+        required: true
+    },
+    currentCity: {
+        type: String,
+        required: false
+    },
 });
 
 UserSchema.pre('save', function(next) {

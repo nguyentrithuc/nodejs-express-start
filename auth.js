@@ -1,13 +1,14 @@
-var passport = require("passport");  
-var passportJWT = require("passport-jwt");  
-var User = require("./models/User");  
-var cfg = require("./config");  
-var ExtractJwt = passportJWT.ExtractJwt;  
-var Strategy = passportJWT.Strategy;  
+var passport = require("passport")  
+var passportJWT = require("passport-jwt")
+var jwt = require("jsonwebtoken")  
+var User = require("./models/User")  
+var cfg = require("./config")  
+var ExtractJwt = passportJWT.ExtractJwt  
+var Strategy = passportJWT.Strategy 
 var params = {  
     secretOrKey: cfg.secret,
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
-};
+}
 
 module.exports = function() {  
     var strategy = new Strategy(params, function(jwt_payload, done) {
@@ -30,5 +31,7 @@ module.exports = function() {
         authenticate: function() {
             return passport.authenticate("jwt", cfg.jwtSession);
         }
+        
     };
 };
+

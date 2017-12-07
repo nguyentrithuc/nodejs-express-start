@@ -9,7 +9,8 @@ exports.signup = function(req, res) {
   } else {
     var newUser = new User({
         username: req.body.username,
-        password: req.body.password
+        password: req.body.password,
+        userType: 'normal',
     });
     // save the user
     newUser.save(function(err){
@@ -49,7 +50,7 @@ exports.login = function(req, res) {
   });
 }
 
-exports.get_user_profile = function(req, res, next) {
+exports.get_user_profile = function(req, res) {
   var token = req.headers.authorization;
   if (!token) {
     return res.status(401).json({message: 'Must pass to token to Authorization header'});
@@ -60,8 +61,46 @@ exports.get_user_profile = function(req, res, next) {
     User.findById(user._doc._id, function(err, user) {
       if (err)  throw err;
       res.json({
-        username: user.username
+        username: user.username,
+        userType: user.userType,
       })
     })
   })
+}
+
+exports.edit_user_profile = function(req, res) {
+  if (!req.body ){
+    res.json({success: false, msg: 'Please pass some information to edit'});
+  } else {
+    var editedUser = {
+        currentCity: req.body.currentCity,
+    };
+
+    // edit the user
+    User.findOneAndUpdate({username: req.params.username}, editedUser, {new: true}, function(err, user) {
+      if (err) {
+        return res.json({success: false, msg: 'Some error occur, try again later'})
+      }
+      res.json(user.currentCity)
+    })
+  }
+}
+
+exports.add_admin = function(req, res) {
+  if (!req.body.username || !req.body.password) {
+    res.json({success: false, msg: 'Pleas pass username and password'});
+  } else {
+    var newAdmin = new User({
+      username: req.body.username,
+      password: req.body.password,
+      userType: 'admin',
+    });
+    // save the admin
+    newAdmin.save(function(err){
+      if (err){
+        return res.json({success: false, msg: 'Username already exist.'});
+      }
+      res.json({success: true, msg: 'Successful created admin '+ req.body.username});
+    });
+  }
 }

@@ -8,11 +8,15 @@ var DishSchema = new mongoose.Schema({
     },
     description: {
         type: String,
-        required: true,
+        required: false,
     },
     location: {
         required: true,
-        type: String,
+        type: Array,
+    },
+    classify: {
+        required: false,
+        type: Object,
     },
     image: {
         type: String,
